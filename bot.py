@@ -1,10 +1,16 @@
 import os
 import logging
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters
+from telegram.ext import (
+    ApplicationBuilder,
+    ContextTypes,
+    MessageHandler,
+    CommandHandler,
+    filters
+)
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
-GROUP_ID = os.environ.get("GROUP_ID")
+GROUP_ID = int(os.environ.get("GROUP_ID"))
 
 logging.basicConfig(level=logging.INFO)
 
@@ -43,7 +49,8 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
             is_anonymous=False,
         )
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
-app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
-app.add_handler(MessageHandler(filters.TEXT & filters.COMMAND, start))
-app.run_polling()
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.Document.TEXT, handle_document))
+    app.run_polling()
