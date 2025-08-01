@@ -23,6 +23,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Please send a .txt file only.")
         return
 
+    
     file = await context.bot.get_file(document.file_id)
     content = await file.download_as_bytearray()
     text = content.decode("utf-8")
