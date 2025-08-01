@@ -33,3 +33,24 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if len(lines) != 6:
             continue
         question = lines[0]
+        options = [line[3:].strip() for line in lines[1:5]]
+        answer_letter = lines[5].split(":")[-1].strip().upper()
+        try:
+            correct_option_id = ["A", "B", "C", "D"].index(answer_letter)
+        except ValueError:
+            continue
+
+        await context.bot.send_poll(
+            chat_id=GROUP_ID,
+            question=question,
+            options=options,
+            type="quiz",
+            correct_option_id=correct_option_id,
+            is_anonymous=False,
+        )
+
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.Document.TEXT, handle_document))
+    app.run_pol_
