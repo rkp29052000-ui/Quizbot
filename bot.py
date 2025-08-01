@@ -50,6 +50,7 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
             is_anonymous=False,
         )
 
+
 if __name__ == "__main__":
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
