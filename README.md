@@ -1,2 +1,0 @@
-# Quizbot
-Telegram Quiz Bot
